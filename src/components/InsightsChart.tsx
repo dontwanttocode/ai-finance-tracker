@@ -2,6 +2,7 @@
 
 import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from 'recharts'
 import { formatCurrency } from '@/lib/utils'
+import { CATEGORY_COLORS } from '@/lib/constants'
 
 interface Expense {
   id: string
@@ -32,8 +33,6 @@ export default function InsightsChart({ expenses }: { expenses: Expense[] }) {
     )
   }
 
-const COLORS = ['#66fcf1', '#c792ea', '#ffd700', '#ff7f50', '#82ca9d', '#ff6b6b']
-
   return (
     <div style={{ height: '250px', width: '100%', marginTop: '20px' }}>
       <ResponsiveContainer width="100%" height="100%">
@@ -50,7 +49,7 @@ const COLORS = ['#66fcf1', '#c792ea', '#ffd700', '#ff7f50', '#82ca9d', '#ff6b6b'
             stroke="none"
           >
             {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              <Cell key={`cell-${index}`} fill={CATEGORY_COLORS[entry.name] || '#8892B0'} />
             ))}
           </Pie>
           <Tooltip 

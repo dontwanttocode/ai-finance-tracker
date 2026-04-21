@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { ArrowUpRight, ArrowDownRight, CreditCard, Activity } from 'lucide-react'
 import InsightsChart from '@/components/InsightsChart'
 import { formatCurrency } from '@/lib/utils'
+import { CATEGORY_COLORS } from '@/lib/constants'
 
 export default async function Dashboard() {
   const supabase = await createClient()
@@ -83,7 +84,7 @@ export default async function Dashboard() {
                   <div>
                     <div style={{ fontWeight: 600, color: 'var(--text-heading)' }}>{exp.description}</div>
                     <div style={{ fontSize: '0.85rem', color: 'var(--text)', opacity: 0.7 }}>
-                      {exp.date} • <span className="badge" style={{ background: 'rgba(255,255,255,0.1)' }}>{exp.category}</span>
+                      {exp.date} • <span className="badge" style={{ background: 'rgba(255,255,255,0.1)', color: CATEGORY_COLORS[exp.category] || '#8892B0' }}>{exp.category}</span>
                     </div>
                   </div>
                   <div style={{ fontWeight: 600, fontSize: '1.1rem' }}>
