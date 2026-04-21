@@ -1,6 +1,6 @@
 'use client'
 
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
+import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from 'recharts'
 import { formatCurrency } from '@/lib/utils'
 
 interface Expense {
@@ -32,32 +32,39 @@ export default function InsightsChart({ expenses }: { expenses: Expense[] }) {
     )
   }
 
+const COLORS = ['#66fcf1', '#c792ea', '#ffd700', '#ff7f50', '#82ca9d', '#ff6b6b']
+
   return (
     <div style={{ height: '250px', width: '100%', marginTop: '20px' }}>
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data}>
-          <XAxis 
-            dataKey="name" 
-            stroke="var(--text)" 
-            tick={{ fill: 'var(--text)', fontSize: 12 }} 
-            tickLine={false} 
-            axisLine={false} 
-          />
-          <YAxis 
-            stroke="var(--text)" 
-            tick={{ fill: 'var(--text)', fontSize: 12 }} 
-            tickLine={false} 
-            axisLine={false} 
-            tickFormatter={(value) => formatCurrency(value)}
-          />
+        <PieChart>
+          <Pie
+            data={data}
+            dataKey="amount"
+            nameKey="name"
+            cx="50%"
+            cy="50%"
+            innerRadius={60}
+            outerRadius={80}
+            paddingAngle={2}
+            stroke="none"
+          >
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
           <Tooltip 
-            cursor={{ fill: 'rgba(102, 252, 241, 0.05)' }} 
             contentStyle={{ backgroundColor: 'var(--surface-hover)', border: '1px solid var(--border)', borderRadius: '8px', color: 'var(--text-heading)' }}
-            itemStyle={{ color: 'var(--primary)' }}
+            itemStyle={{ color: 'var(--text)' }}
             formatter={(value: any) => [formatCurrency(value), 'Amount']}
           />
-          <Bar dataKey="amount" fill="var(--primary)" radius={[4, 4, 0, 0]} />
-        </BarChart>
+          <Legend 
+            verticalAlign="bottom" 
+            height={36} 
+            iconType="circle" 
+            wrapperStyle={{ fontSize: '12px' }} 
+          />
+        </PieChart>
       </ResponsiveContainer>
     </div>
   )
